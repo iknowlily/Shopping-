@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Product Detail</title>
+</head>
+<style>
+    .num {
+        display: flex;
+        align-items: center;
+    }
+.num input{
+    text-align: center;
+}
+    .num button {
+        display: inline-block;
+        width: 40px;
+        height: 25px;
+        background-color: deeppink;
+        border: none;
+        color: #fff;
+        font-weight: bold;
+        cursor: pointer;
+        border-radius: 30px;
+    }
+
+    .reduce {
+        margin-right: 5px;
+    }
+
+    .increase {
+        margin-left: 5px;
+    }
+
+    * {
+        padding: 0;
+        margin: 0;
+    }
+
+    .top {
+        width: 80%;
+        margin: 30px auto
+    }
+
+    .top img {
+        width: 600px;
+        max-height: 400px;
+        object-fit: cover;
+        height: auto;
+    }
+
+    .top ul {
+        list-style-type: none;
+        position: absolute;
+        top: 10px;
+        left: 800px;
+    }
+
+    .top ul li {
+        margin-bottom: 20px;
+    }
+
+    {#    搜索#}
+    #box {
+        border: none;
+        bottom: 20px;
+        position: relative;
+        top: -20px;
+        width: 850px;
+        margin: 0 auto;
+        font-family: 'Microsoft YaHei';
+        font-size: 14px;
+    }
+
+    input {
+        border-radius: 25px;
+        width: 750px;
+        border: 1px solid #e2e2e2;
+        height: 30px;
+        float: left;
+        background-repeat: no-repeat;
+        background-size: 25px;
+        background-position: 5px center;
+        padding: 0 0 0 40px;
+    }
+
+    #search {
+        width: 80px;
+        height: 32px;
+        float: right;
+        background: lightpink;
+        color: white;
+        text-align: center;
+        line-height: 32px;
+        cursor: pointer;
+        border-radius: 25px;
+    }
+
+    #buy_now {
+        background-color: deeppink;
+        border-radius: 30px;
+        border: none;
+        color: white;
+        width: 80px;
+        height: 30px;
+    }
+
+    #add_cart {
+        background-color: lightpink;
+        border-radius: 30px;
+        border: none;
+        color: white;
+        width: 80px;
+        height: 30px;
+    }
+
+    {#    comment#}
+    .comment {
+        width: 1000px;
+        border: 1px solid black;
+        margin: 30px auto;
+    }
+
+    .comment div h3 {
+        width: 200px;
+        margin: 0 50px;
+    }
+
+    .comment div span {
+        width: 800px;
+        position: relative;
+        top: -25px;
+        left: 100px;
+    }
+
+    .comment div h4 {
+        position: relative;
+        top: -20px;
+        left: 100px;
+    }
+
+    {#    button#}
+    .myButton {
+        background-color: #44c767;
+        border-radius: 28px;
+        border: 1px solid #18ab29;
+        display: inline-block;
+        cursor: pointer;
+        color: #ffffff;
+        font-family: Arial;
+        font-size: 17px;
+        padding: 16px 31px;
+        text-decoration: none;
+        text-shadow: 0px 1px 0px #2f6627;
+    }
+
+    .myButton:hover {
+        background-color: #5cbf2a;
+    }
+
+    .myButton:active {
+        position: relative;
+        top: 1px;
+    }
+
+    dt, dd {
+        display: inline-block;
+        padding: 5px;
+    }
+
+    dt {
+        color: #999999;
+    }
+
+    .price {
+        color: deeppink;
+    }
+</style>
+<body>
+<div class="top">
+    <img src="{{ product[7] }}" alt="">
+    <ul>
+        <dl>
+            <dt>product name</dt>
+            <dd>{{ product[3] }}</dd>
+        </dl>
+        <dl>
+            <dt>product description</dt>
+            <dd>{{ product[8] }}</dd>
+        </dl>
+        <dl>
+            <dt>merchant name</dt>
+            <dd>{{ product[4] }}</dd>
+        </dl>
+        <dl>
+            <dt>old price</dt>
+            <dd class="price"> ￥{{ product[5] }}</dd>
+        </dl>
+        <dl>
+            <dt>price</dt>
+            <dd class="price"> ￥{{ product[9] }}</dd>
+        </dl>
+        <dl>
+            <dt>duration</dt>
+            <dd>{{ product[10] }}</dd>
+        </dl>
+        <dl>
+            <dt>promotion reason</dt>
+            <dd>{{ product[11] }}</dd>
+        </dl>
+        <dl>
+            <dt>merchant address</dt>
+            <dd>{{ product[6] }}</dd>
+        </dl>
+        <li style="width: 800px">
+            <div class="num">
+                <button type="button" class="reduce">-</button>
+                <input type="text" id="count" style="width:10px" value="1"/>
+                <button type="button" class="increase">+</button>
+            </div>
+        </li>
+        <li>
+            <button class="like">likes {{ product[-3] }}</button>&nbsp;&nbsp;&nbsp;&nbsp;
+            <button class="unlike">dislikes {{ product[-2] }}</button>
+        </li>
+        <li>
+            <button id="buy_now">Buy now</button>
+            <button id="add_cart">Add to Cart</button>
+        </li>
+    </ul>
+</div>
+<div id="box">
+    <input type="search" name="search" id="comment" placeholder="Post a comment.">
+    <div id="search">comment</div>
+</div>
+<div class="comment">
+    <div>
+        {% if count[0][0] %}
+            {% for i in range(count[0][0]) %}
+                <h3>{{ user_list[i][2] }}:</h3>
+                <span>{{ comment_list[i][3] }}</span>
+                <h4>{{ comment_list[i][4] }}</h4>
+                <hr>
+            {% endfor %}
+        {% endif %}
+    </div>
+</div>
+<script src="/static/js/jquery.min.js"></script>
+
+<script>
+    $(document).ready(function () {
+        $(".reduce").click(function () {
+            var count = parseInt($("#count").val());
+            if (count > 1) {
+                count--;
+                $("#count").val(count);
+            }
+        });
+
+        $(".increase").click(function () {
+            var count = parseInt($("#count").val());
+            count++;
+            $("#count").val(count);
+        });
+    })
+    var liked = false;
+    var unliked = false;
+$('.like').click(function () {
+    if (!liked && !unliked) {
+        liked = true;
+        $.ajax({
+            url: "/products/like",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({
+                product_id: {{ product[0] }},
+                cont: 'like'
+            }),
+            success: function (res) {
+                console.log(res);
+                alert(res.status);
+                location.href = '/products/' + {{ product[0] }};
+            }
+        });
+    }
+});
+
+$('.unlike').click(function () {
+    if (!unliked && !liked) {
+        unliked = true;
+        $.ajax({
+            url: "/products/like",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({
+                product_id: {{ product[0] }},
+                cont: 'unlike'
+            }),
+            success: function (res) {
+                console.log(res);
+                location.reload();
+            }
+        });
+    }
+});
+    var userLoggedIn = false;
+ function getUserLoggedIn() {
+  $.ajax({
+    url: "/get_user_logged_in",
+    type: "GET",
+    success: function (response) {
+      userLoggedIn = response.userLoggedIn;
+      // Perform corresponding operations here based on the value of userLoggedIn
+    },
+    error: function () {
+      // Handling error situations
+    }
+  });
+}
+
+$(document).ready(function () {
+  getUserLoggedIn();
+});
+$('#buy_now').click(function () {
+  if (userLoggedIn) {
+    // User logged in, executing purchase logic
+    $.ajax({
+      url: "/cart",
+      type: "POST",
+      contentType: "application/json",
+      data: JSON.stringify({
+        product: [{{ product[0] }}]
+      }),
+      success: function (res) {
+        console.log(res);
+        location.reload();
+        alert('Buy successfully！');
+      }
+    });
+  } else {
+    // User not logged in, pop-up message
+    alert('Please login！');
+  }
+})
+
+$('#add_cart').click(function () {
+    if (userLoggedIn) {
+        // User logged in, executing add shopping cart logic
+        $.ajax({
+            url: "/product/cart",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({
+                product_id: {{ product[0] }},
+                count: $("#count").val(),
+                status: 0
+            }),
+            success: function (res) {
+                console.log(res);
+                location.reload();
+                alert('Add successfully!');
+            }
+        });
+    } else {
+        // User not logged in, pop-up message
+        alert('Please login！');
+    }
+})
+$('#search').click(function () {
+    if (userLoggedIn) {
+        var commentContent = $("#comment").val();
+
+        // Check if comment content is empty
+        if (commentContent.trim() === '') {
+            // Comment is empty, show an error message
+            alert('Comment cannot be empty!');
+            return; // Stop execution
+        }
+        // The user has logged in and executed the post comment logic
+        $.ajax({
+            url: "/products/comment",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({
+                product_id: {{ product[0] }},
+                content: commentContent,
+            }),
+            success: function (res) {
+                console.log(res.status);
+                location.reload();
+                alert('Comment successfully！');
+            }
+        });
+    } else {
+        // User not logged in, pop-up message
+        alert('Please login！');
+    }
+})
+</script>
+</body>
+</html>
+
+
+
+
+</script>
+</body>
+</html>

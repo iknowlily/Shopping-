@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Login</title>
+    <link rel="icon" href="http://v3.bootcss.com/favicon.ico">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/login.css') }}">
+</head>
+<body>
+<div id="maxbox">
+    <h1>Welcome to login</h1>
+    <h2>Please login</h2>
+    <div class="inputbox">
+        <form action="/login" method="post">
+            <div class="inputText">
+                <span class="iconfont icon-mine"></span>
+                <input class="username" type="text" placeholder="Username" name="username" style="color:white"/>
+            </div>
+            <div class="inputText">
+                <span class="iconfont icon-lock"></span>
+                <input type="password" class="password" placeholder="Password" name="password" style="color:white"/>
+                <br>
+                <input class="remember" name="remember" type="checkbox" value="" checked="checked">
+                <span style="color:rgb(255, 255, 255)">Remember me</span>
+
+            </div>
+            <input id="login" class="inputButton" type="submit" value="Login"/> &nbsp;&nbsp;
+            <a href="/register">Free registration</a>
+        </form>
+    </div>
+</div>
+</body>
+<script src="/static/js/jquery.min.js"></script>
+<script>
+    $('#login').click(function () {
+        $.ajax({
+            url: "/login_view",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({
+                username: $('.username').val(),
+                password: $(".password").val()
+            }),
+            success: function (res) {
+                console.log(res)
+                if (res.status === 'admin') {
+                     alert(res.message);
+                    location.href = '/admin';
+                } else if (res.status === 'success') {
+                     alert(res.message)
+                    location.href = '/';
+                } else {
+                $('#error-message').text(res.message).show();
+                     alert(res.message);
+                    location.href = '/login';
+                 }
+                },
+        });
+    })
+</script>
+</html>

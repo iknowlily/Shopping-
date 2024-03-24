@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Products status</title>
+</head>
+<style>
+    * {
+        font-size: 14px;
+        font-family: "Microsoft YaHei";
+        vertical-align: middle;
+        margin: 0;
+        padding: 0;
+    }
+
+    img {
+        width: 160px;
+        height: 120px;
+        object-fit: cover;
+    }
+
+    table {
+        width: 90%;
+        border-collapse: collapse;
+    }
+
+    /*span{display: inline-block;}*/
+
+    .imfor_top div {
+        height: 40px;
+        background-color: hotpink;
+        font-weight: bold;
+    }
+
+    .imfor div {
+        height: 140px;
+        line-height: 120px;
+    }
+
+    .imfor:hover {
+        background: RGB(238, 246, 255);
+    }
+
+    .check,
+    .check_top {
+        width: 100px;
+    }
+
+    .pudc,
+    .pudc_top {
+        width: 400px;
+    }
+
+    .pices,
+    .pices_top {
+        width: 100px;
+    }
+
+    .totle {
+        color: red;
+    }
+
+    .num,
+    .num_top {
+        width: 100px;
+    }
+
+    .num input {
+        width: 40px;
+    }
+
+    .num span {
+        height: 23px;
+        width: 17px;
+        border: 1px solid #e5e5e5;
+        background: #f0f0f0;
+        text-align: center;
+        line-height: 23px;
+        color: #444;
+        cursor: pointer;
+    }
+
+    .totle,
+    .totle_top {
+        width: 100px;
+    }
+
+    .del,
+    .del_top {
+        width: 100px;
+        cursor: pointer;
+    }
+
+    .imfor_top div,
+    .imfor div {
+        float: left;
+        border: 1px solid dimgray;
+        text-align: center;
+    }
+
+    .imfor_top,
+    .imfor {
+        width: 1000px;
+    }
+  #box,
+    #content_box {
+        width: 900px;
+        margin: 100px auto;
+        position: center;
+    }
+
+    h1 {
+        margin: 20px;
+        font-size: 2em;
+        font-weight: bold;
+        color: deeppink;
+        text-align: center;
+}
+</style>
+<body>
+  <h1>Product Status</h1>
+<<div id="box">
+    <div id="content_box">
+        <div class="imfor_top"><!--top line-->
+            <div class="check_top">
+                Item status
+            </div>
+            <div class="pudc_top">product</div>
+            <div class="pices_top">price</div>
+            <div class="num_top">count</div>
+            <div class="totle_top">subtotal</div>
+            <div class="del_top">operation</div>
+        </div>
+        {% for i in range(count[0][0]) %}
+            <div class="imfor"><!--After importing each row into the database, this module can be output in a loop-->
+                {% if products[i][-1]==0 %}
+                    <div class="check">unPurchase</div>
+                {% elif products[i][-1]==-1 %}
+                    <div class="check">Undelivered</div>
+                {% elif products[i][-1]==1 %}
+                    <div class="check">transiting</div>
+                {% else %}
+                    <div class="check">Delivered</div>
+                {% endif %}
+                <div class="pudc"><img src="{{ product[i][7] }}"/><span>{{ product[i][3] }}</span>
+                </div>
+                <div class="pices">{{ product[i][9] }}</div>
+                <div class="num">{{ products[i][-2] }}
+                </div>
+                <div class="totle">{{ product[i][9] * products[i][-2] }}</div>
+                {% if products[i][-1]==0 %}
+                    <div class="del">PayFirst</div>
+                {% elif products[i][-1]==-1 %}
+                    <div class="del">Informed</div>
+                {% elif products[i][-1]==1 %}
+                    <div class="del">transiting</div>
+                {% elif products[i][-1]==2 %}
+                    <div class="del" id="edit">
+                        <div id="{{ products[i][0] }}">Confirm</div>
+                    </div>
+                {% else %}
+                    <div class="del">Received</div>
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+</body>
+<script src="/static/js/jquery.min.js"></script>
+<script>
+    $('.imfor').each(function () {
+        var price = parseFloat($(this).find('.pices').text());
+        {#converts a string to a floating point number#}
+        var count = parseInt($(this).find('.num').text());
+        var subtotal = price * count;
+        $(this).find('.totle').text(subtotal.toFixed(2));
+        {#Format the number and specify the number of decimal places to reserve#}
+    });
+
+    $('#edit').click(function () {
+        $.ajax({
+            url: "/product/cart",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({
+                cart_id: $('#edit div').attr('id'),
+            }),
+            success: function (res) {
+                console.log(res);
+                location.reload();
+            }
+        });
+    });
+</script>
+</html>

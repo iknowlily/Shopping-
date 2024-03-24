@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HomePage</title>
+</head>
+<style>
+    * {
+        max-width: 1250px;
+        padding: 0;
+        margin: 0;
+    }
+
+    .head {
+        background-color:blanchedalmond;
+    }
+
+    .head div ul {
+        margin: 0 10px;
+        display: inline;
+        text-decoration: none;
+    }
+
+    .head div ul a {
+        text-decoration: none;
+        color: blueviolet;
+        bottom:20px;
+    }
+    .head div ul a:hover{
+        color:hotpink ;
+    }
+    .left ul {
+        left: 20px;
+        position: relative;
+        color: aquamarine;
+    }
+
+    .right ul {
+        left: 900px;
+        top: -20px;
+        position: relative;
+        color: aquamarine;
+    }
+    {#Category#}
+    .category div ul {
+        display: inline;
+        text-decoration: none;
+        position: relative;
+        width: 80%;
+        left: 300px;
+    }
+    .category div ul li {
+        display: inline;
+        position: relative;
+        width: 80%;
+        margin: 20px 10px;
+    }
+
+    .category div ul li a {
+        text-decoration: none;
+        color: blueviolet;
+        line-height: 24px;
+        height: 24px;
+    }
+    .category div ul li a:hover {
+       color: hotpink;
+    }
+
+    h1 {
+        position: relative;
+        left: 300px;
+        top: 50px;
+        font-size: 50px;
+    }
+
+    {#    layout#}
+     .col4 {
+        display: flex;
+        position: relative;
+        width: 80%;
+        margin: 30px auto;
+    }
+
+    .col4 div {
+        position: relative;
+        width: 300px;
+        margin: 20px 20px;
+    }
+    img {
+        width: 200px;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    ul {
+        list-style-type: none;
+    }
+
+
+    .col3 {
+        position: relative;
+        left: 10px;
+        max-width:350px;
+    }
+    .col3 img{
+        width: 200px;
+        object-fit: cover;
+        max-height: 350px;
+    }
+
+    {#    search#}
+    .container {
+        width: 500px;
+        height: 50px;
+        margin: 0 auto;
+
+    }
+
+
+    .parent {
+        width: 100%;
+
+        height: 42px;
+
+        top: 4px;
+
+        position: relative;
+
+
+    }
+
+
+    .parent > input:first-of-type {
+        border-radius: 25px;
+        width: 380px;
+
+        height: 40px;
+
+        border: 1px solid #ccc;
+
+        font-size: 16px;
+
+        outline: none;
+
+    }
+
+
+    .parent > input:first-of-type:focus {
+        border: 1px solid #317ef3;
+
+        padding-left: 10px;
+
+    }
+
+
+    .parent > input:last-of-type {
+        width: 100px;
+
+        height: 44px;
+
+        position: absolute;
+
+        background: lightpink;
+        border-radius: 25px;
+        border: 1px solid #317ef3;
+
+        color: #fff;
+
+        font-size: 16px;
+
+        outline: none;
+
+    }
+
+    {#    lunbo#}
+    .imgBox {
+        border-top: 2px solid cadetblue;
+        width: 100%;
+        height: 300px;
+        margin: 0 auto;
+    }
+
+    .imgBox img {
+        width: 100%;
+        height: 250px;
+        margin: 0 auto;
+        padding-top: 30px;
+    }
+
+    .img1 {
+        display: block;
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+
+    }
+
+    .img2 {
+        display: block;
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+    }
+
+    .img3 {
+        display: block;
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+    }
+    .top-ui li {
+        width: 10%;
+        min-width: 50px;
+        margin: -5px 50px 0 70px;
+        float: left;
+        text-align: center;
+        display: block;
+    }
+
+    .top-ui a {
+        color: black;
+        text-decoration: none;
+    }
+
+    .top-ui a:hover {
+        color: white;
+    }
+
+    .top-ui img {
+        height: 40px;
+        margin: 0;
+        padding: 0;
+        display: inline;
+        position: relative;
+        top: -10px;
+    }
+</style>
+<body>
+<div class="head">
+    <div class="left">
+        {% if session %}
+            <ul>
+                <div style="color:blueviolet;display: inline-flex" id="logout">logout</div>
+            </ul>
+        {% else %}
+            <ul><a href="/login">Login in</a></ul>
+            <ul><a href="/register">Register</a></ul>
+        {% endif %}
+    </div>
+    <div class="right">
+        <ul><a href="/">Home Page</a></ul>
+        <ul><a href="/shopping_cart">Shopping Cart</a></ul>
+        <ul><a href="/user_cart">Status</a></ul>
+    </div>
+</div>
+<div class="category">
+    <h1 style="color: hotpink ;display: flex;position: absolute;left:100px;top:35px;"><i>Fashion</i></h1>
+    <div>
+        <div class="container">
+            <form action="" class="parent">
+                <input type="text">
+                <input type="button" value="Search" id="searchButton">
+            </form>
+        </div>
+        <ul>
+            {% for category in category1 %}
+                <li><a href="/?cid={{ category[0] }}">{{ category[1] }}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+{#Rotation chart#}
+<div class="imgBox" style="width: 950px">
+    <img class="img-slide img1"
+         src="https://static.zara.cn/photos///contents/mkt/spots/ss23-north-woman-new/subhome-xmedia-20//w/2400/IMAGE-landscape-fill-c858f95e-9272-423c-a1ee-40e7dfd5b638-default_0.jpg?ts=1684136380997"
+         alt="1">
+    <img class="img-slide img2"
+         src="/static/images/R.jpg "
+       alt="2">
+    <img class="img-slide img3"
+         src="https://www.visitamishcountry.com/sites/default/files/styles/destination_gallery_image/public/images/IMG_8133_3.jpg?itok=fyyyMRdp"
+         alt="3">
+</div>
+<div id="searchResults"></div>
+<div class="col4">
+    {% for i in product1 %}
+        <div class="col3" >
+            <a href="/products/{{ i[0] }}"><img src="{{ i[7] }}" alt=""></a>
+            <ul>
+                <li>product name:{{ i[3] }}</li>
+                <li>price:{{ i[9] }}</li>
+                <li>surplus: {{ i[13] }}</li>
+            </ul>
+        </div>
+    {% endfor %}
+</div>
+<div class="col4" style="margin-top: 50px">
+    {% for i in product2 %}
+        <div class="col3">
+            <a href="/products/{{ i[0] }}"><img src="{{ i[7] }}" alt=""></a>
+            <ul>
+                <li>product name:{{ i[3] }}</li>
+                <li>price:{{ i[9] }}</li>
+                <li>surplus: {{ i[13] }}</li>
+            </ul>
+        </div>
+    {% endfor %}
+</div>
+<script src="/static/js/jquery.min.js"></script>
+<script type="text/javascript">
+    $('#logout').click(function () {
+        $.ajax({
+            url: "/logout",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({}),
+            success: function (res) {
+                console.log(res)
+                location.href = '/login'
+            }
+        })
+    })
+
+
+    var index = 0;
+    function ChangeImg() {
+        index++;
+        var a = document.getElementsByClassName("img-slide");
+        if (index >= a.length) index = 0;
+        for (var i = 0; i < a.length; i++) {
+            a[i].style.display = 'none';
+        }
+        a[index].style.display = 'block';
+    }
+    //Set a timer to switch between images every two seconds
+    setInterval(ChangeImg, 3000);
+
+    document.getElementById('searchButton').addEventListener('click', function () {
+    var searchCategory = document.getElementById('searchInput').value;
+
+    // 根据不同的产品类别发送不同的搜索请求
+    if (searchCategory === 'category1') {
+        sendSearchRequest('category1');
+    } else if (searchCategory === 'category2') {
+        sendSearchRequest('category2');
+    } else if (searchCategory === 'category3') {
+        sendSearchRequest('category3');
+    } else if (searchCategory === 'category4') {
+        sendSearchRequest('category4');
+    } else if (searchCategory === 'category5') {
+        sendSearchRequest('category5');
+    } else if (searchCategory === 'category6') {
+        sendSearchRequest('category6');
+    } else {
+        alert('Invalid category');
+    }
+});
+
+// 发送搜索请求的函数
+function sendSearchRequest(category) {
+    $.ajax({
+        url: '/search',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify({ category: category }),
+        success: function (response) {
+            // 处理搜索结果
+            if (response.status === 'success') {
+                // ...
+            } else {
+                alert('Search failed: ' + response.message);
+            }
+        },
+        error: function () {
+            alert('Search failed.');
+        }
+    });
+}
+
+
+</script>
+</body>
+</html>

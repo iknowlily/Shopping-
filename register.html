@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registration Page</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/register.css') }}">
+</head>
+<body>
+<div class="register-box">
+    <h2>User registration</h2>
+    <div class="inputbox">
+        <form method="POST" action="/register">
+            <div class="user-box">
+                <input type="text" class="username" name="username" required="">
+                <label>Username</label>
+            </div>
+            <div class="user-box">
+                <input type="text" class="Birthday" name="Birthday" required="">
+                <label>Birthday</label>
+            </div>
+            <div class="user-box">
+                <input type="text" class="sex" name="sex" required="">
+                <label>sex</label>
+            </div>
+            <div class="user-box">
+                <input type="password" class="Password" name="Password" required="">
+                <label>Password</label>
+            </div>
+            <div class="user-box">
+                <input type="text" class="PhoneNumber" name="PhoneNumber" required="">
+                <label>PhoneNumber</label>
+            </div>
+            <div class="user-box">
+                <input type="text" class="Email" name="Email" required="">
+                <label>Email</label>
+            </div>
+            <div class="user-box">
+                <input type="text" class="Address" name="Address" required="">
+                <label>Address</label>
+            </div>
+            <div class="radio">
+                <label style="color: #a5a5a5">Content-Type</label>
+                <input class="yonghu" type="radio" name="1" id="0" checked> <label for="guanli"style="color: #a5a5a5">User</label>
+                <input class="maijia" type="radio" name="1" id="1"> <label for="shangjia"style="color: #a5a5a5">Vendor</label>
+
+            </div>
+            {% if message %} {{ message }} {% endif %}
+            <input class="inputButton" type="submit" name="" id="register" value="Register">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <a href="/login">Login</a>
+        </form>
+    </div>
+</div>
+</body>
+<script src="/static/js/jquery.min.js"></script>
+<script>
+$('#register').click(function () {
+    $('input[type=radio]:checked').each(function () {
+        var item = $(this).attr('id');
+        var username = $('.username').val();
+        var password = $(".Password").val();
+        var birthday = $('.Birthday').val();
+        var sex = $(".sex").val();
+        var phonenumber = $('.PhoneNumber').val();
+        var email = $(".Email").val();
+        var address = $('.Address').val();
+
+        // Check mandatory fields
+        if (!username || !password || !birthday || !sex || !phonenumber || !email || !address) {
+            alert("Please fill in the complete registration information");
+            return;
+        }
+        // Send registration request
+        $.ajax({
+            url: "/register",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({
+                username: username,
+                password: password,
+                birthday: birthday,
+                sex: sex,
+                phonenumber: phonenumber,
+                email: email,
+                address: address,
+                admin_id: item
+            }),
+            success: function (res) {
+                console.log(res);
+                if (res.status === 'success') {
+                    alert("User registration successful!");
+                    location.href = '/login';
+                } else {
+                    alert(res.message);
+                    location.reload(); // Reload the current page
+                }
+            },
+            error: function () {
+                alert("Registration failed.");
+                location.reload(); // Reload the current page
+            }
+        });
+    });
+});
+
+
+
+</script>
+</html>

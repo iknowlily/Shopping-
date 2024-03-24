@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>product_add</title>
+</head>
+<style>
+    .reg_div {
+        width: 500px;
+        margin: auto;
+    }
+h3{
+    color: deeppink;
+}
+    .submit_btn {
+        display: block;
+        width: 100px;
+        height: 28px;
+        line-height: 28px;
+        font-size: 14px;
+        border: 1px #006600 none;
+        text-align: center;
+        border-radius: 25px;
+        background: deeppink;
+        color: #FFF;
+        float: right;
+        margin: 10px 15px 0 0;
+
+    }
+
+    .submit_btn:hover {
+        background: plum;
+        cursor: pointer;
+        border-radius: 25px;
+
+    }
+
+    label {
+        display: inline-block;
+        text-align: right;
+        width: 150px;
+        padding-right: 10px;
+        height: 28px;
+        color: hotpink;
+    }
+
+    input {
+        width: 200px;
+        height: 28px;
+        border: lightpink 1px solid;
+        border-radius: 3px;
+        margin: 5px 0 5px 0;
+
+
+    }
+
+    .h_title {
+        text-align: center;
+    }
+
+    .h_hr {
+        height: 2px;
+        background: hotpink;
+        margin-bottom: 15px;
+    }
+</style>
+<body>
+<div class="reg_div">
+    <div class="h_hr"></div>
+    <form action="" method="get">
+            <label>Category</label>
+            <input id="category_id" name="product category" type="text"/><br/>
+            <label>Product name</label><input id="products_name" name="product category" type="text"/><br/>
+            <label>Merchant Name</label><input id="merchant_name" type="text" name="merchant name"/><br/>
+            <label>Price</label><input id="price" type="text" name="cover"/> <br/>
+            <label>Merchant Address</label><input type="text" id="merchant_address" name="price"/><br/>
+            <label>Cover</label><input type="text" id="cover" name="desprition"/><br/>
+            <label>Description</label><input type="text" id="content" name="product name"/><br/>
+            <div class="h_title"><h3>special price</h3></div>
+            <label>current price</label><input type="text" id="new_price" name="new price"/><br/>
+            <label>duration</label><input type="text" id="duration" name="duration"/> <br/>
+            <label>promotion reason</label><input type="text" id="promotion_reason" name="promotion reason"/><br/>
+            <div class="submit_btn">Add product</div>
+{#        {% endif %}#}
+    </form>
+</div>
+<script src="/static/js/jquery.min.js"></script>
+<script>
+    $('.submit_btn').click(function () {
+        $.ajax({
+            url: "/product_add",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({
+                category_id: $('#category_id').val(),
+                products_name: $('#products_name').val(),
+                merchant_name: $("#merchant_name").val(),
+                price: $('#price').val(),
+                merchant_address: $('#merchant_address').val(),
+                cover: $("#cover").val(),
+                content: $('#content').val(),
+                new_price: $("#new_price").val(),
+                duration: $('#duration').val(),
+                promotion_reason: $("#promotion_reason").val()
+            }),
+            success: function (res) {
+                console.log(res)
+                if (res.status === 'success') {
+                    location.href = '/admin';
+                }
+            }
+        })
+    })
+
+</script>
+</body>
+</html>

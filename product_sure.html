@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>table</title>
+</head>
+<style>
+    table {
+        margin: 10px auto;
+    }
+
+    img {
+        width: 150px;
+        object-fit: cover;
+    }
+
+    table {
+        width: 80%;
+        border-collapse: collapse;
+    }
+
+    table caption {
+        font-size: 2em;
+        font-weight: bold;
+        margin: 1em 0;
+        color: deeppink;
+    }
+th{
+    background-color: papayawhip;
+     border: 1px solid #999;
+        text-align: center;
+        padding: 20px 0;
+}
+th:hover{
+    color: hotpink;
+}
+    td {
+        border: 1px solid #999;
+        text-align: center;
+        padding: 20px 0;
+    }
+
+    table thead tr {
+        background-color: #008c8c;
+        color: #fff;
+    }
+
+    table tbody tr:nth-child(odd) {
+        background-color: #eee;
+    }
+
+    table tbody tr:hover {
+        background-color: #ccc;
+    }
+
+    table tbody tr td:first-child {
+        color: #f40;
+    }
+
+    table tfoot tr td {
+        text-align: right;
+        padding-right: 20px;
+    }
+
+
+</style>
+<body>
+
+<div class="d-center">
+    <div class="advertisement">
+    </div>
+    <table>
+        <caption>Monthly savings</caption>
+        <tr>
+            <th scope="col">user_name</th>
+            <th>products_name</th>
+            <th>price</th>
+            <th>count</th>
+            <th>address</th>
+            <th>operation</th>
+        </tr>
+        <tbody>
+        {% for i in range(count[0][0]) %}
+            <tr>
+                <th>{{ users[i][2] }}</th>
+                <th>{{ product[i][3] }}</th>
+                <th>{{ product[i][9] }}</th>
+                <th>{{ products[i][3] }}</th>
+                <th>{{ users[i][-1] }}</th>
+                <th>
+                    <button id="edit" value="{{ products[i][0] }}">Confirm shipment</button>
+                </th>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+</body>
+<script src="/static/js/jquery.min.js"></script>
+<script>
+    $('#edit').click(function () {
+        $.ajax({
+            url: "/admin_sure",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({
+                cart_id: $('#edit').val(),
+            }),
+            success: function (res) {
+                console.log(res)
+                location.reload()
+            }
+        })
+    })
+</script>
+</html>

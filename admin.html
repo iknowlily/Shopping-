@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>table</title>
+</head>
+<style>
+    table {
+        margin: 10px auto;
+    }
+
+    img {
+        width: 150px;
+        object-fit: cover;
+    }
+    button{
+        border-radius: 25px;
+        width: 80px;
+        border: none;
+        background-color: hotpink;
+    }
+
+    {#    #}
+    table {
+        width: 80%;
+        border-collapse: collapse;
+    }
+
+    table caption {
+        font-size: 2em;
+        font-weight: bold;
+        margin: 1em 0;
+    }
+
+    th, td {
+        border: 1px solid #999;
+        text-align: center;
+        padding: 20px 0;
+    }
+
+    table thead tr {
+        background-color: lightpink;
+        color: #fff;
+    }
+
+    table tbody tr:nth-child(odd) {
+        background-color: oldlace;
+    }
+
+    table tbody tr:hover {
+        background-color: lightpink;
+    }
+
+    table tbody tr td:first-child {
+        color: #f40;
+    }
+
+    table tfoot tr td {
+        text-align: right;
+        padding-right: 20px;
+    }
+
+    tr:nth-child(even) {
+        background-color: #f2f2f2;
+    }
+</style>
+<body>
+<div class="d-center">
+    <div class="advertisement">
+    </div>
+    <table border="1">
+        <thead>
+        <tr>
+            <th>
+                <button><a href="/product_add_view" style="color: black;text-decoration: none">Add</a></button>
+            </th>
+            <th>
+                <button><a href="/admin_sure_view" style="color: black;text-decoration: none">Sure</a></button>
+            </th>
+        </tr>
+        </thead>
+        <tr>
+            <th>products_name</th>
+            <th>merchant_name</th>
+            <th>price</th>
+            <th>merchant_address</th>
+            <th>cover</th>
+            <th>content</th>
+            <th>new_price</th>
+            <th>duration</th>
+            <th>promotion_reason</th>
+            <th>count</th>
+            <th>out_count</th>
+            <th>operation</th>
+        </tr>
+        {% for i in product %}
+            <tr>
+                <th>{{ i[3] }}</th>
+                <th>{{ i[4] }}</th>
+                <th>{{ i[5] }}</th>
+                <th>{{ i[6] }}</th>
+                <th><img src="{{ i[7] }}" alt=""></th>
+                <th>{{ i[8] }}</th>
+                <th>{{ i[9] }}</th>
+                <th>{{ i[10] }}</th>
+                <th>{{ i[11] }}</th>
+                <th>{{ i[12] }}</th>
+                <th>{{ i[13] }}</th>
+                <th>
+                    <button id="del" value="{{ i[0] }}" style="color: black">Delete</button>
+                </th>
+            </tr>
+        {% endfor %}
+    </table>
+</div>
+</body>
+<script src="/static/js/jquery.min.js"></script>
+<script>
+
+    $('#del').click(function () {
+        $.ajax({
+            url: "/admin_view",
+            type: "POST",
+            contentType: "application/json",
+            data: JSON.stringify({
+                del_id: $('#del').val(),
+            }),
+            success: function (res) {
+                console.log(res)
+                location.href = '/admin'
+            }
+        })
+    })
+</script>
+</html>

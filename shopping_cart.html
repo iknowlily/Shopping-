@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>Shopping Cart</title>
+</head>
+<style>
+    * {
+        font-size: 14px;
+        font-family: 'Microsoft YaHei';
+        vertical-align: middle;
+        margin: 0;
+        padding: 0;
+    }
+    img {
+        width: 160px;
+        height: 120px;
+        object-fit: cover;
+    }
+
+
+
+    .imfor_top div {
+        height: 40px;
+        background-color: deeppink;
+        font-weight: bold;
+    }
+
+    .imfor div {
+        height: 140px;
+        line-height: 120px;
+    }
+
+    .imfor:hover {
+        background: RGB(238, 246, 255);
+    }
+
+    .check,
+    .check_top {
+        width: 70px;
+    }
+
+    .pudc,
+    .pudc_top {
+        width: 400px;
+    }
+
+    .pices,
+    .pices_top {
+        width: 60px;
+    }
+
+    .totle {
+        color: red;
+    }
+
+    .num,
+    .num_top {
+        width: 100px;
+    }
+
+    .num input {
+        width: 40px;
+    }
+
+    .num span {
+        height: 23px;
+        width: 17px;
+        border: 1px solid #e5e5e5;
+        background: #f0f0f0;
+        text-align: center;
+        line-height: 23px;
+        color: #444;
+        cursor: pointer;
+    }
+ .num  .reduc{
+    background-color: lightpink;
+}
+  .num .add{
+      background-color: lightpink;
+  }
+    .totle,
+    .totle_top {
+        width: 60px;
+    }
+
+    .del,
+    .del_top {
+        width: 70px;
+        cursor: pointer;
+    }
+
+    .imfor_top div,
+    .imfor div {
+        float: left;
+        border: 1px solid black;
+        text-align: center;
+    }
+
+    .imfor_top,
+    .imfor {
+        width: 800px;
+    }
+    #shanchu{
+      background-color: lightpink;
+      border-radius: 25px;
+      border: none;
+        width: 50px;
+  }
+    #pay{
+        background-color: lightpink;
+      border-radius: 25px;
+      border: none;
+        width: 100px;
+         float: right;
+        cursor: pointer;
+        {#width: 80px;#}
+        margin-top: 14px;
+        margin-left: 100px;
+    }
+    .foot {
+        float: inherit;
+    }
+
+    #box,
+    #content_box {
+        width: 800px;
+        margin: 0 auto;
+    }
+
+
+    #allde {
+        float: left;
+        cursor: pointer;
+        margin-left: 10px;
+        margin-top: 14px;
+        background-color: lightpink;
+      border-radius: 25px;
+      border: none;
+    }
+
+    .foot {
+        width: 800px;
+        background-color: #eaeaea;
+    }
+
+    .foot_tol {
+        float: right;
+        cursor: pointer;
+        width: 80px;
+        margin-top: 14px;
+        margin-left: 100px;
+    }
+.foot_tol span{
+    display: inline;
+}
+    #susum {
+        color: red;
+    }
+
+    .img img {
+        width: 500px;
+        object-fit: cover;
+        display: none;
+        height: 100%;
+        margin: 20px auto
+    }
+
+</style>
+<body>
+<div class="img">
+    <img id="img" src="/static/images/payment.jpg" alt="">
+</div>
+<div id="box" style="margin: 70px auto;width: 800px;background-color: blanchedalmond">
+    <div id="content_box">
+        <div class="imfor_top">
+            <div class="check_top">
+                <input type="checkbox" id="all"/>all
+            </div>
+            <div class="pudc_top">product</div>
+            <div class="pices_top">price</div>
+            <div class="num_top">count</div>
+            <div class="totle_top">subtotal</div>
+            <div class="del_top">operation</div>
+        </div>
+        {% for i in range(count[0][0]) %}
+            <div class="imfor"><!--After importing each row into the database, this module can be output in a loop-->
+                <div class="check">
+                    <input value="{{ product[i][0] }}" type="checkbox" class="Each"/>
+                </div>
+                <div class="pudc"><img src="{{ product[i][7] }}"/><span>{{ product[i][3] }}</span>
+                </div>
+                <div class="pices">{{ product[i][9] }}</div>
+                <div class="num"><span class="reduc">&nbsp;-&nbsp;</span><input type="text" value="{{ products[i][3] }}"/><span
+                        class="add">&nbsp;+</span>
+                </div>
+                <div class="totle">0</div>
+                <div class="del"><button id="shanchu">delete</button></div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="foot"><!--In the end-->
+        <div class="foot_del"><button id="allde">all delete</button></div>
+        <div class="foot_cash"><button id="pay">settlement</button></div>
+        <div class="foot_tol"><span>total：￥</span><span id="susum">0</span></div>
+    </div>
+</div>
+
+</body>
+<script src="/static/js/jquery.min.js"></script>
+<script>
+$(function() {
+  // Update the subtotal and total price when the page loads
+  updateSubtotal();
+  updateTotal();
+
+  $('.add').click(function() {
+    var $input = $(this).siblings('input');
+    var count = parseFloat($input.val());
+    count++;
+    $input.val(count);
+    updateSubtotal();
+    updateTotal();
+  });
+
+  $('.reduc').click(function() {
+    var $input = $(this).siblings('input');
+    var count = parseFloat($input.val());
+    if (count > 1) {
+      count--;
+      $input.val(count);
+      updateSubtotal();
+      updateTotal();
+    }
+  });
+
+  // current line
+ $('.del').click(function() {
+    $(this).closest('.imfor').remove();
+    updateSubtotal();
+    updateTotal();
+  });
+
+$('#allde').click(function() {
+    $('.imfor').remove();
+    updateTotal();
+  });
+
+  function updateSubtotal() {
+    $('.imfor').each(function() {
+      var count = parseFloat($(this).find('.num input').val());
+      var price = parseFloat($(this).find('.pices').text());
+      var subtotal = count * price;
+      $(this).find('.totle').text(subtotal.toFixed(2));
+    });
+  }
+
+  function updateTotal() {
+    var total = 0;
+    $('.imfor').each(function() {
+      var $checkbox = $(this).find('.Each');
+      if ($checkbox.prop('checked')) {
+        var subtotal = parseFloat($(this).find('.totle').text());
+        total += subtotal;
+      }
+    });
+    $('#susum').text(total.toFixed(2));
+  }
+
+  $('.Each').click(function() {
+    updateTotal();
+  });
+
+  $('#all').click(function() {
+    var isChecked = $(this).prop('checked');
+    $('.Each').prop('checked', isChecked);
+    updateTotal();
+  });
+});
+//pay
+$('.foot_cash').click(function () {
+    var product = [];
+    var total = 0;
+
+    var checkedBoxes = $('input[type="checkbox"]:checked');
+    if (checkedBoxes.length === 0) {
+        alert('Please select at least one product.');
+        return;
+    }
+    checkedBoxes.each(function (index, value) {
+        product.push($(value).val());
+
+        var $imfor = $(value).closest('.imfor');
+        var price = parseFloat($imfor.find('.totle').text());
+        total += price;
+    });
+
+    $("#susum").text(total.toFixed(2));
+
+    $.ajax({
+        url: "/cart",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({
+            product: product
+        }),
+        success: function (res) {
+            console.log(res);
+            setTimeout(function () {
+                $('#img').css('display', 'block');
+                $('#box').css('opacity', '0');
+            }, 4000);
+            alert('You pay');
+        }
+    });
+});
+
+</script>
+</html>
